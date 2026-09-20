@@ -1,28 +1,35 @@
-# PyTorch公式 CUDA 12.1 / Ubuntu 22.04 最適化イメージ
-FROM pytorch/pytorch:2.4.0-cuda12.1-cudnn9-runtime
+# This image defines the CUDA 13 R2T2 proxy runtime. The official R2T2 clone,
+# VAD checkpoint, model cache, and both server processes are provisioned by
+# onstart.sh; no secrets are copied into this image.
+FROM nvidia/cuda:13.0.0-devel-ubuntu22.04
 
-# システム依存（音声デコード用）
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libsndfile1 \
-    git \
-    ffmpeg \
-    && rm -rf /var/lib/apt/lists/*
-
-ENV HF_HOME=/root/.cache/huggingface \
+ENV DEBIAN_FRONTEND=noninteractive \
+    HF_HOME=/root/.cache/huggingface \
     PIP_NO_CACHE_DIR=1 \
     PYTHONUNBUFFERED=1
 
-WORKDIR /app
-RUN mkdir -p /app/data
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      python3.10 python3-pip python3.10-venv \
+      git ffmpeg libsndfile1 \
+    && rm -rf /var/lib/apt/lists/*
 
-# 依存だけコピーしてレイヤキャッシュを効かせる
-COPY requirements.txt /app/requirements.txt
-RUN pip install --upgrade pip && pip install -r /app/requirements.txt
+RUN python3.10 -m pip install --no-cache-dir --upgrade pip uv \
+    && uv pip install --system --torch-backend=auto \
+      "vllm==0.14.0" \
+      "qwen-asr==0.0.6" \
+      "fireredvad==0.0.2" \
+      "sanic==25.12.1" \
+      librosa soundfile sox \
+      "huggingface-hub==0.36.2" \
+      "tokenizers==0.22.2" \
+      "deepl==1.19.1" fastapi uvicorn "websockets==16.1.1"
 
-# ソースのみコピー（.env は絶対に COPY しない）
-COPY server.py /app/server.py
+WORKDIR /opt/r2t2-proxy
+COPY proxy_server.py ./proxy_server.py
 
-EXPOSE 8000
+EXPOSE 8000 8272
 
-# 認証情報は実行時に --env-file で注入する
-CMD ["python", "server.py"]
+# Start R2T2 ws_server.py and proxy_server.py through onstart.sh after the
+# official repository and VAD checkpoint are available. Inject secrets only at
+# runtime, for example with Docker's --env-file option.
+CMD ["/bin/bash"]

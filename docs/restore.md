@@ -49,10 +49,18 @@ Verify:
 Expected: vllm 0.14.0, cuda True
 If this fails, destroy and try another machine.
 
+The frozen environment used `torch==2.9.1+cu130` and
+`torchaudio==2.9.1+cu130`. Confirm both after installation:
+
+    /workspace/r2t2-venv/bin/python -c "import torch, torchaudio; print(torch.__version__, torchaudio.__version__)"
+
 ## Step 5: Install R2T2 dependencies
 
     uv pip install "qwen-asr==0.0.6" "fireredvad==0.0.2" \
-        sanic librosa soundfile sox "huggingface-hub==0.36.2"
+        "sanic==25.12.1" "transformers==4.57.6" \
+        "tokenizers==0.22.2" "huggingface-hub==0.36.2" \
+        librosa soundfile sox "deepl==1.19.1" \
+        "fastapi==0.141.1" "uvicorn==0.53.0" "websockets==16.1.1"
 
 ## Step 6: Clone R2T2
 
@@ -73,13 +81,15 @@ Verify:
 
 Expected: cmvn.ark, model.pth.tar
 
-## Step 8: Place proxy_server.py
+## Step 8: Place the canonical EN-to-JA proxy_server.py
 
-Copy from docs/inventory/08-proxy_server.py to /root/Confucius4-R2T2/proxy_server.py
+Use `server/proxy_server.py`. `docs/inventory/08-proxy_server.py` is retained
+only as an archived Japanese-ASR to English-translation experiment and must not
+be used for the EN-to-JA pipeline.
 
-Or from local repo:
+From the local repository:
 
-    scp -P <PORT> ~/projects/r2t2-pipeline/docs/inventory/08-proxy_server.py \
+    scp -P <PORT> ~/projects/r2t2-pipeline/server/proxy_server.py \
         root@<HOST>:/root/Confucius4-R2T2/proxy_server.py
 
 ## Step 9: Place server.env

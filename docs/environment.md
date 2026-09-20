@@ -35,9 +35,9 @@
 ## Dependencies
 
 - See docs/inventory/05-pip-freeze.txt (227 packages)
-- Key: vllm 0.14.0, torch 2.5.1+cu121, transformers 4.57.6,
-  tokenizers 0.22.2, huggingface-hub 0.36.2, qwen-asr 0.0.6,
-  fireredvad 0.0.2, sanic 25.12.1
+- Key: vllm 0.14.0, torch 2.9.1+cu130, torchaudio 2.9.1+cu130,
+  transformers 4.57.6, tokenizers 0.22.2, huggingface-hub 0.36.2,
+  qwen-asr 0.0.6, fireredvad 0.0.2, sanic 25.12.1
 
 ## R2T2 Repository
 
@@ -56,7 +56,8 @@
 
 - Path: /root/Confucius4-R2T2/proxy_server.py
 - Port: 8000
-- See docs/inventory/08-proxy_server.py
+- Canonical EN-to-JA source: server/proxy_server.py
+- docs/inventory/08-proxy_server.py is an archived JA-to-EN experiment.
 
 ## Onstart Script
 
