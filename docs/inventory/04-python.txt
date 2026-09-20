@@ -1,0 +1,9 @@
+=== system python ===
+Python 3.10.12
+
+=== venv python ===
+Python 3.10.12
+
+=== uv ===
+/usr/local/bin/uv
+uv 0.12.17 (x86_64-unknown-linux-gnu)

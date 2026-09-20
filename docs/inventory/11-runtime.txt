@@ -1,0 +1,17 @@
+=== listening ports ===
+State  Recv-Q Send-Q Local Address:Port  Peer Address:PortProcess                                    
+LISTEN 0      100          0.0.0.0:8272       0.0.0.0:*    users:(("python",pid=1238,fd=21))         
+LISTEN 0      2048         0.0.0.0:8000       0.0.0.0:*    users:(("python",pid=3139,fd=11))         
+LISTEN 0      128          0.0.0.0:22         0.0.0.0:*    users:(("sshd",pid=528,fd=4))             
+LISTEN 0      4096      172.17.0.3:36733      0.0.0.0:*    users:(("VLLM::EngineCor",pid=1308,fd=64))
+LISTEN 0      4096      172.17.0.3:33799      0.0.0.0:*    users:(("VLLM::EngineCor",pid=1308,fd=82))
+LISTEN 0      4096      172.17.0.3:32805      0.0.0.0:*    users:(("VLLM::EngineCor",pid=1308,fd=78))
+LISTEN 0      4096      172.17.0.3:45979      0.0.0.0:*    users:(("VLLM::EngineCor",pid=1308,fd=74))
+LISTEN 0      4096      172.17.0.3:44345      0.0.0.0:*    users:(("VLLM::EngineCor",pid=1308,fd=86))
+LISTEN 0      4096      172.17.0.3:43741      0.0.0.0:*    users:(("VLLM::EngineCor",pid=1308,fd=68))
+LISTEN 0      128             [::]:22            [::]:*    users:(("sshd",pid=528,fd=5))             
+LISTEN 0      4096               *:49511            *:*    users:(("VLLM::EngineCor",pid=1308,fd=56))
+
+=== python procs ===
+root        1238  6.7  1.3 15494100 1735432 ?    Ssl  09:02   3:33 python -u ./ws_server.py --port 8272 --asr_model_path netease-youdao/Confucius4-R2T2 --vad_model_path checkpoints/vad/Stream-VAD
+root        3139  0.5  0.0 239980 57688 pts/1    Sl   09:48   0:02 python proxy_server.py

@@ -1,0 +1,44 @@
+=== git remote ===
+origin	https://github.com/netease-youdao/Confucius4-R2T2.git (fetch)
+origin	https://github.com/netease-youdao/Confucius4-R2T2.git (push)
+
+=== git HEAD ===
+80c22e6140bcb9166fb9906798894fc8b18c8309
+
+=== git log -1 ===
+80c22e6140bcb9166fb9906798894fc8b18c8309 2026-09-18 10:17:03 +0800 Update: readme
+
+=== git status ===
+?? proxy_server.py
+?? proxy_server.py.pre-header-fix
+?? proxy_server.py.pre-proxy-backup
+?? service_ws_test
+
+=== top level ===
+total 480
+drwxr-xr-x 9 root root   4096 Sep 20 09:48 .
+drwx------ 1 root root   4096 Sep 20 09:54 ..
+drwxr-xr-x 8 root root    163 Sep 20 09:54 .git
+-rw-r--r-- 1 root root    534 Sep 20 07:54 .gitignore
+-rw-r--r-- 1 root root  10963 Sep 20 07:54 LICENSE
+-rw-r--r-- 1 root root  11071 Sep 20 07:54 MODEL_LICENSE
+-rw-r--r-- 1 root root   7733 Sep 20 07:54 MODEL_LICENSE_zh
+-rw-r--r-- 1 root root  48854 Sep 20 07:54 README.md
+-rw-r--r-- 1 root root  48128 Sep 20 07:54 README.zh.md
+drwxr-xr-x 2 root root     42 Sep 20 09:48 __pycache__
+drwxr-xr-x 3 root root     17 Sep 20 09:02 checkpoints
+-rw-r--r-- 1 root root   9015 Sep 20 07:54 example.py
+drwxr-xr-x 3 root root     22 Sep 20 09:16 logs
+-rw-r--r-- 1 root root 183479 Sep 20 09:53 nohup_service_ws_localhost_8272.log
+-rw-r--r-- 1 root root  10525 Sep 20 09:48 proxy_server.py
+-rw-r--r-- 1 root root   9956 Sep 20 09:24 proxy_server.py.pre-header-fix
+-rw-r--r-- 1 root root  19044 Sep 20 09:21 proxy_server.py.pre-proxy-backup
+-rw-r--r-- 1 root root   3610 Sep 20 07:54 pyproject.toml
+drwxr-xr-x 3 root root     63 Sep 20 07:54 r2t2
+drwxr-xr-x 2 root root   4096 Sep 20 07:54 resources
+-rwxr-xr-x 1 root root   6056 Sep 20 07:54 run_example.sh
+-rwxr-xr-x 1 root root   5114 Sep 20 07:54 run_start_server.sh
+-rw-r--r-- 1 root root     70 Sep 20 09:16 service_ws_test
+drwxr-xr-x 2 root root      6 Sep 20 09:02 wav_tmp_store
+-rw-r--r-- 1 root root   6340 Sep 20 07:54 ws_client.py
+-rw-r--r-- 1 root root  57171 Sep 20 07:54 ws_server.py

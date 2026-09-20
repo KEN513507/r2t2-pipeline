@@ -1,0 +1,14 @@
+=== VAD dir ===
+total 2236
+drwxr-xr-x 2 root root      43 Sep 20 09:02 .
+drwxr-xr-x 4 root root      38 Sep 20 09:02 ..
+-rw-r--r-- 1 root root    1311 Sep 20 09:02 cmvn.ark
+-rw-r--r-- 1 root root 2283513 Sep 20 09:02 model.pth.tar
+
+=== sizes ===
+4.0K	/root/Confucius4-R2T2/checkpoints/vad/Stream-VAD/cmvn.ark
+2.2M	/root/Confucius4-R2T2/checkpoints/vad/Stream-VAD/model.pth.tar
+
+=== md5 ===
+b9f201d7bfcf7643293b77a7bac17f18  /root/Confucius4-R2T2/checkpoints/vad/Stream-VAD/cmvn.ark
+daf7010cbed1b1f29653b3687ad62a6a  /root/Confucius4-R2T2/checkpoints/vad/Stream-VAD/model.pth.tar

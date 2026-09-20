@@ -1,0 +1,40 @@
+   22  export DEEPL_USAGE_FILE=/root/r2t2-data/deepl_usage.json
+   23  export R2T2_WS_URL=ws://127.0.0.1:8272/asr_stream_api_v1
+   24  mkdir -p /root/r2t2-data
+   25  python proxy_server.py
+   27  for v in R2T2_TOKEN DEEPL_KEY DEEPL_CAP_CHARS DEEPL_USAGE_FILE R2T2_WS_URL; do     if [ -n "${!v:-}" ]; then         printf "%-20s = [SET]\n" "$v";     else         printf "%-20s = [NOT SET]\n" "$v";     fi; done
+   29  for v in R2T2_TOKEN DEEPL_KEY DEEPL_CAP_CHARS DEEPL_USAGE_FILE R2T2_WS_URL; do     val="${!v}";     if [ -n "$val" ]; then         printf "%-20s = [SET, %d chars]\n" "$v" "${#val}";     else         printf "%-20s = [NOT SET]\n" "$v";     fi; done
+   32  source ~/.config/r2t2/server.env
+   35  for v in R2T2_TOKEN DEEPL_KEY DEEPL_CAP_CHARS DEEPL_USAGE_FILE R2T2_WS_URL; do     val="${!v}";     if [ -n "$val" ]; then         printf "%-20s = [SET, %d chars]\n" "$v" "${#val}";     else         printf "%-20s = [NOT SET]\n" "$v";     fi; done
+   36  cd /root/Confucius4-R2T2
+   38  head -60 /root/Confucius4-R2T2/ws_client.py
+   40  cd /root/Confucius4-R2T2
+   41  source /workspace/r2t2-venv/bin/activate
+   42  set -a; source ~/.config/r2t2/server.env; set +a
+   43  mkdir -p /root/r2t2-data
+   44  python proxy_server.py
+   45  cd /root/Confucius4-R2T2
+   47  cd /root/Confucius4-R2T2
+   48  source /workspace/r2t2-venv/bin/activate
+   49  set -a; source ~/.config/r2t2/server.env; set +a
+   50  mkdir -p /root/r2t2-data
+   51  python proxy_server.py
+   52  grep -n "language\|target_lang" /root/Confucius4-R2T2/proxy_server.py
+   53  sed -i 's/"language": "English"/"language": "Japanese"/' /root/Confucius4-R2T2/proxy_server.py
+   54  sed -i 's/target_lang="JA"/target_lang="EN-US"/' /root/Confucius4-R2T2/proxy_server.py
+   55  grep -n "language\|target_lang" /root/Confucius4-R2T2/proxy_server.py
+   56  pkill -f proxy_server.py
+   57  cd /root/Confucius4-R2T2
+   58  source /workspace/r2t2-venv/bin/activate
+   59  set -a; source ~/.config/r2t2/server.env; set +a
+   60  nohup python proxy_server.py > /root/proxy.log 2>&1 &
+   62  tail -10 /root/proxy.log
+   64  tail -20 /root/proxy.log
+   71  {   echo "=== system python ===";   /usr/bin/python3 --version;   echo;   echo "=== venv python ===";   /workspace/r2t2-venv/bin/python --version;   echo;   echo "=== uv ===";   which uv;   uv --version 2>/dev/null; } > /root/inventory/04-python.txt 2>&1
+   72  /workspace/r2t2-venv/bin/python -m pip freeze > /root/inventory/05-pip-freeze.txt 2>&1
+   74  {   echo "=== git remote ===";   git -C /root/Confucius4-R2T2 remote -v;   echo;   echo "=== git HEAD ===";   git -C /root/Confucius4-R2T2 rev-parse HEAD;   echo;   echo "=== git log -1 ===";   git -C /root/Confucius4-R2T2 log -1 --format="%H %ci %s";   echo;   echo "=== git status ===";   git -C /root/Confucius4-R2T2 status --short;   echo;   echo "=== top level ===";   ls -la /root/Confucius4-R2T2/; } > /root/inventory/06-r2t2-repo.txt 2>&1
+   75  {   echo "=== VAD dir ===";   ls -la /root/Confucius4-R2T2/checkpoints/vad/Stream-VAD/;   echo;   echo "=== sizes ===";   du -h /root/Confucius4-R2T2/checkpoints/vad/Stream-VAD/*;   echo;   echo "=== md5 ===";   md5sum /root/Confucius4-R2T2/checkpoints/vad/Stream-VAD/*; } > /root/inventory/07-vad.txt 2>&1
+   76  cp /root/Confucius4-R2T2/proxy_server.py /root/inventory/08-proxy_server.py 2>/dev/null   || echo "MISSING" > /root/inventory/08-proxy_server.MISSING
+   78  {   echo "=== file exists ===";   ls -la /root/r2t2-data/deepl_usage.json 2>/dev/null;   echo;   echo "=== content ===";   cat /root/r2t2-data/deepl_usage.json 2>/dev/null; } > /root/inventory/10-deepl-usage.txt 2>&1
+   79  {   echo "=== listening ports ===";   ss -lntp;   echo;   echo "=== python procs ===";   ps aux | grep -E "proxy_server|ws_server" | grep -v grep; } > /root/inventory/11-runtime.txt 2>&1
+   80  history 2>/dev/null | grep -iE "r2t2|proxy|ws_server|uv |vastai" | tail -40   > /root/inventory/12-history.txt
