@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: server.py (local)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/server/server.py",
+      "envFile": "${env:HOME}/.config/r2t2/server.env",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/server"
+    },
+    {
+      "name": "Python: client.py (local)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/client/client.py",
+      "envFile": "${env:HOME}/.config/r2t2/client.env",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}/client"
+    }
+  ]
+}

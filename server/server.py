@@ -48,7 +48,6 @@ SAMPLE_RATE     = 16_000
 DEEPL_KEY       = os.environ.get("DEEPL_KEY", "")
 DEEPL_CAP_CHARS = int(os.environ.get("DEEPL_CAP_CHARS", "500000"))
 USAGE_FILE      = Path(os.environ.get("DEEPL_USAGE_FILE", "/app/data/deepl_usage.json"))
-RESET_DAY       = int(os.environ.get("DEEPL_RESET_DAY", "1"))
 
 PUNCT_RE        = re.compile(r"[.!?。！？…]+")
 MIN_WORDS       = int(os.environ.get("R2T2_MIN_WORDS", "4"))
@@ -78,7 +77,7 @@ class DeepLManager:
     使用量は JSON に原子的に永続化する。
     """
 
-    def __init__(self, key: str, cap: int, usage_file: Path, reset_day: int) -> None:
+    def __init__(self, key: str, cap: int, usage_file: Path) -> None:
         if not key:
             raise RuntimeError("DEEPL_KEY is empty")
         if deepl is None:
@@ -86,7 +85,6 @@ class DeepLManager:
         self._client = deepl.Translator(key)
         self.cap = cap
         self.path = usage_file
-        self.reset_day = reset_day
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self._lock: Optional[asyncio.Lock] = None
 
@@ -323,18 +321,18 @@ async def lifespan(app: FastAPI):
         LOG.warning("R2T2_TOKEN not set — authentication DISABLED")
     if not DEEPL_KEY:
         LOG.critical("DEEPL_KEY not set — refusing to start")
-        sys.exit(1)
+        raise RuntimeError("startup failed")
     if DEEPL_CAP_CHARS <= 0:
         LOG.critical("DEEPL_CAP_CHARS must be > 0")
-        sys.exit(1)
+        raise RuntimeError("startup failed")
 
     # ---- DeepL init (★5) ----
     try:
-        deepl_mgr = DeepLManager(DEEPL_KEY, DEEPL_CAP_CHARS, USAGE_FILE, RESET_DAY)
+        deepl_mgr = DeepLManager(DEEPL_KEY, DEEPL_CAP_CHARS, USAGE_FILE)
         LOG.info("DeepL ready. remaining=%d", deepl_mgr.remaining())
     except Exception as e:
         LOG.critical("DeepL init failed: %s", e, exc_info=True)
-        sys.exit(1)
+        raise RuntimeError("startup failed")
 
     # ---- ASR warmup (★4) ----
     asr_singleton = StreamingASR()
@@ -343,10 +341,10 @@ async def lifespan(app: FastAPI):
         LOG.info("ASR warmup OK")
     except asyncio.TimeoutError:
         LOG.critical("ASR warmup timed out (HF download stuck?)")
-        sys.exit(1)
+        raise RuntimeError("startup failed")
     except Exception as e:
         LOG.critical("ASR load failed: %s", e, exc_info=True)
-        sys.exit(1)
+        raise RuntimeError("startup failed")
 
     yield
 

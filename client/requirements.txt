@@ -1,0 +1,5 @@
+sounddevice==0.4.6
+numpy==1.26.4
+websockets==12.0
+requests==2.31.0
+pygame==2.5.2
